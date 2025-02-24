@@ -1,0 +1,155 @@
+% This paper is Copyright © Graeme Andrew Stewart, Philippe Gras,
+% Sanmay Ganguly, Sattwamo Ghosh and Atell Krasnopolski, 2025
+% Licensed under Creative Commons Attribution 4.0 International (CC BY 4.0), see LICENSE
+
+\documentclass{webofc}
+\usepackage{graphicx} % Required for inserting images
+\graphicspath{{figures/}}
+\usepackage{subcaption}
+\usepackage[varg]{txfonts}
+\usepackage[utf8]{inputenc}
+
+% Workaround for arXiv, start with "finalizecache" then switch to "frozencache"
+\usepackage[finalizecache,cachedir=.]{minted}
+% \usepackage[frozencache,cachedir=.]{minted}
+
+\usepackage{natbib}
+\usepackage{hyperref}
+\usepackage{enumitem}
+
+% For draft version
+\usepackage{lineno}
+\linenumbers
+
+\newcommand{\unroot}{\texttt{UnROOT.jl}}
+
+\newcommand{\kt}{${k}_\text{T}$}
+\newcommand{\akt}{anti-${k}_\text{T}$}
+\newcommand{\Akt}{Anti-${k}_\text{T}$}
+\newcommand{\JR}{\texttt{JetReconstruction.jl}}
+\newcommand{\ee}{$e^+e^-$}
+
+\title{Julia in HEP}
+
+\author{\firstname{Graeme Andrew} \lastname{Stewart}\inst{1}\fnsep\thanks{\email{graeme.andrew.stewart@cern.ch}} \and
+\firstname{Other} \lastname{People}\inst{2}
+% etc.
+}
+
+\institute{CERN, Esplanade des Particules 1, Geneva, Switzerland
+\and
+Some Other Place
+}
+
+\abstract{%
+Julia is a mature general-purpose programming language, with a large ecosystem
+of libraries and more than 10000 third-party packages, which specifically
+targets scientific computing. As a language, Julia is as dynamic, interactive,
+and accessible as Python with NumPy, but achieves run-time performance on par
+with C/C++. In this paper, we describe the state of adoption of Julia in HEP,
+where momentum has been gathering over a number of years.
+
+HEP-oriented Julia packages can, via \texttt{UnROOT.jl}, already read HEP's
+major file formats, including TTree and RNTuple formats. Interfaces to some of
+HEP's major software packages, such as through \texttt{Geant4.jl}, are available
+too. Jet reconstruction algorithms in Julia show excellent performance. A number
+of full HEP analyses have been performed in Julia.
+
+We show how, as the support for HEP has matured, developments have benefited
+from Julia's core design choices, which makes reuse from and integration with
+other packages easy. In particular, libraries developed outside HEP for
+plotting, statistics, fitting, and scientific machine learning are extremely
+useful.
+
+We believe that the powerful combination of flexibility and speed, the wide
+selection of scientific programming tools, and support for all modern
+programming paradigms and tools, make Julia the ideal choice for a future
+language in HEP.}
+
+\begin{document}
+
+\maketitle
+
+\section{Programming Languages in High Energy Physics}
+\label{sec:introduction}
+
+\subsection{HEP Needs}
+
+What do we need from code? Some desiderata.
+
+\subsection{From Fortran to the C++/Python Era}
+
+A bit of history from~\cite{pivarski2022}.
+
+The situation today. Some thoughts on tradeoffs.
+
+\section{Julia}
+
+\subsection{Julia's Motivations}
+
+Some of the design goals of the language. \emph{Julia Programming
+Language}~\cite{bib:julia_freshapproach,10.1145/3276490}
+
+\subsection{Julia in Practice}
+
+Some code examples - demonstrate \emph{ease} and also give some benchmarks for
+speed.
+
+Tooling and ecosystem.
+
+\subsection{Key Design Features for Performance}
+
+Type system.
+
+Multiple dispatch.
+
+\section{Julia for Scientific Computing}
+
+General adoption:~\cite{perkel-julia-science}.
+
+GPU programming.
+
+Some HPC codes.
+
+\section{Julia in HEP}
+
+\subsection{Challenges}
+
+What does HEP need from its computing?
+
+Cite some general overviews:~\cite{Stanitzki:2020bnx,eschle2023potential}.
+
+\subsection{HEP Data Formats}
+
+We can read that data... UpROOT.jl. EDM4hep.jl.
+
+\subsection{Event Generators}
+
+A bit about QuantumElectrodynamics.jl.
+
+\subsection{Simulation}
+
+Overview of Geant4.jl.
+
+\subsection{Reconstruction}
+
+JetReconstruction.jl
+
+\subsection{Analysis}
+
+Overview of analysis papers and suitability of Julia.
+
+\subsection{End-to-end Computing}
+
+The Legend Julia stack.
+
+\section{Conclusions}
+
+It's all good, nothing can go wrong. To infinity and beyond, etc.
+
+\sloppy
+\raggedright
+% \clearpage
+\bibliography{julia-in-hep}
+
+\end{document}
