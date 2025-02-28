@@ -1,4 +1,4 @@
-% This paper is Copyright © Graeme Andrew Stewart and other
+% This paper is Copyright © Graeme Andrew Stewart, Sam Skipsey, 
 % authors, 2025.
 % Licensed under Creative Commons Attribution 4.0 International (CC BY 4.0), see LICENSE
 
@@ -38,8 +38,8 @@
 
 \institute{CERN, Esplanade des Particules 1, Geneva, Switzerland
 \and
-\institute{School of Physics & Astronomy, University of Glasgow, Glasgow, United Kingdom, G12 8QQ}
-}
+School of Physics \& Astronomy, University of Glasgow, Glasgow, United Kingdom, G12 8QQ}
+
 
 \abstract{%
 Julia is a mature general-purpose programming language, with a large ecosystem
@@ -90,12 +90,53 @@ The situation today. Some thoughts on tradeoffs.
 Some of the design goals of the language. \emph{Julia Programming
 Language}~\cite{bib:julia_freshapproach,10.1145/3276490}
 
+The Julia programming language was announced formally to the world in 2012 with a blog post entitled "Why We Created Julia"\cite{bib:why-create-julia}.
+This document lists a series of ambitious goals for the language, and represents a view into the core developers' mindset, supplemented by the follow-up 
+community-contributed article "Why We Use Julia, 10 Years Later"\cite{bib:why-julia-10}. 
+
+Julia's design attempts to provide a syntax as productive as Python, especially for numerical work, whilst leveraging JAOT\footnote{Just-Ahead-Of-Time} compilation to provide execution times
+on the order of those of compiled, statically typed languages like C and Rust. It utilises type inference - like that added post-hoc to C++, and as present in other 
+modern language by default - to allow the programmer add as much, or as little, detailed constraint to a program as they need. Like MatLab and Fortran,
+Julia's native operations and type system support arrays as first-class entities, of any dimension, allowing array-oriented code to be both
+productively generated, and efficiently executed, with operations naturally "broadcasted" element- or dimension-wise. 
+
+%Design goals and aims
+%Open source
+%Speed like C, but dynamic like Ruby/Python
+%Obvious mathematical notation
+%General purpose like Python
+%As easy for statistics as R
+%Powerful linear algebra like in Matlab
+%Good for gluing programs together like the shell
+
+
 \subsection{Julia in Practice}
 
 Some code examples - demonstrate \emph{ease} and also give some benchmarks for
 speed.
 
-Tooling and ecosystem.
+
+
+%Tooling and ecosystem.
+As with other languages of the 2010s, Julia comes with a set of tools for managing development environments beyond the interpreter.
+
+`juliaup` allows seamless management of multiple Julia releases on the same machine, including tracking particular patch releases, and 
+choosing the system default.
+
+The integrated package management in Julia - via the Pkg library, or a sub-environment within a Julia REPL accessed by pressing '$]$', 
+tracks and maintains the dependency graph of a Julia project. State is entirely stored within two human-readable files - Manifest.toml and Project.toml
+. The user of a Julia codebase can easily reproduce the exact environment needed for the codebase, to the level of dependencies of 
+dependencies of packages, by simply using the "instantiate" command as long as the Project.toml file is provided.
+The Julia Package "General Registry" indexes packages and their releases, and (as with other languages such as Rust and Javascript) relies on a public
+index hosted on GitHub (with off-GitHub backups).
+
+Leveraging the fact that Julia is JAOT-compiled, and that this allows its entire standard library to be written in idiomatic Julia, the REPL also provides
+a series of powerful macro utilities for inspecting the byte- and machine-code generated for a given expression (\verb$@code_lowered$, \verb$@code_native$) and
+for locating and displaying the source code for any function in the current namespace, including from the standard library (\verb$@less$), as well as other introspection
+tools.
+A help environment, accessed by "?" on an empty line of the REPL, allows interactive help on any keyword or symbol known to the REPL's current state. This relies 
+on docstrings, but extended introspection tools are also available in optional packages (such as \texttt{About.jl}, which can provide information 
+on memory layout of datatypes and thread safety of functions).
 
 \subsection{Key Design Features for Performance}
 
