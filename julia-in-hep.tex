@@ -129,7 +129,13 @@ A bit about QuantumElectrodynamics.jl.
 
 \subsection{Simulation}
 
-Overview of Geant4.jl.
+Detector simulation is a crucial component of every High Energy Physics (HEP) experiment, playing a key role both during the design and conception of the detector and later in data analysis. The most widely used toolkit for this purpose is Geant4 \cite{GEANT4:2002zbu}, a C++-based framework with over 2 million lines of code.
+
+Given its complexity and extensive adoption, a complete rewrite of Geant4 in a new language is highly impractical. Instead, this presents an opportunity to explore Julia's interoperability with other languages. One particular challenge arises from Geant4's callback-based user interface, which relies on C++ virtual methods invoked at specific points during particle transport. Application developers must implement these callbacks to configure and control the simulation and extract relevant simulated data. However, integrating this mechanism in Julia is more complex than in other languages, as Julia does not natively support virtual methods.
+
+The Geant4.jl \cite{geant4-jl-github} package has been developed to provide a Julia interface to Geant4. It leverages CxxWrap.jl \cite{cxxwrap-jl-github}, a package that enables calling C++ functions and types from Julia. Similar to Python’s static bindings, invoking C++ code from Julia requires explicit wrapper definitions for each method exposed to Julia. However, given Geant4's large and complex codebase, manually writing and maintaining these wrappers is not a viable approach, especially for making it more sustainable with future toolkit updates. To address this, we use WrapIt \cite{wrapit-github}, a package that automates wrapper generation by utilizing the Clang library to parse C++ header files and extract class declarations. This automation significantly reduces development effort and ensures long-term maintainability of the interface.
+
+Integrating Geant4 with Julia allows researchers to take advantage of Julia's high-level programming capabilities and performance benefits while retaining the full functionality and efficiency of the Geant4 toolkit. This integration also provided an opportunity to rethink and streamline the interface, making it more intuitive and user-friendly. In particular, we focused on ensuring that application developers can concentrate on the essential aspects of their simulations while minimizing configuration overhead. Boilerplate code and C++ idiosyncrasies are hidden, allowing for a cleaner, more concise approach to defining simulations. The performance of the Geant4.jl package is comparable to that of the native C++ Geant4 toolkit, demonstrating the feasibility of using Julia for HEP detector simulation.
 
 \subsection{Reconstruction}
 
