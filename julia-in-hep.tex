@@ -10,25 +10,17 @@
 \usepackage[utf8]{inputenc}
 
 % Workaround for arXiv, start with "finalizecache" then switch to "frozencache"
-\usepackage[finalizecache,cachedir=.]{minted}
+% \usepackage[finalizecache,cachedir=.]{minted}
 % \usepackage[frozencache,cachedir=.]{minted}
 
 \usepackage{natbib}
 \bibliographystyle{apalike}
 \usepackage{hyperref}
-\usepackage{enumitem}
+\usepackage{enumitem} % This seems to cause nested itemize lists to break...?
 
 % For draftversion
 \usepackage{lineno}
 \linenumbers
-
-\newcommand{\unroot}{\texttt{UnROOT.jl}}
-
-\newcommand{\kt}{${k}_\text{T}$}
-\newcommand{\akt}{anti-${k}_\text{T}$}
-\newcommand{\Akt}{Anti-${k}_\text{T}$}
-\newcommand{\JR}{\texttt{JetReconstruction.jl}}
-\newcommand{\ee}{$e^+e^-$}
 
 \title{Julia in HEP}
 
@@ -71,18 +63,73 @@ language in HEP.}
 
 \maketitle
 
-\section{Programming Languages in High Energy Physics}
+\section{Programming Languages in High-Energy Physics}
 \label{sec:introduction}
 
 \subsection{HEP Needs}
 
-What do we need from code? Some desiderata.
+High-energy physics (HEP) is a large field, consisting of tens of thousands of
+researchers, almost all of whom will need to interact with software and
+contribute to software projects during their careers~\cite{2024EPJWC.29505023M}.
+It is also one of the biggest, if not the biggest, generators of scientific
+datasets today, with exabytes of storage used by the LHC
+experiments~\cite{Collaboration:2904204}. This data is processed by a huge
+corpus of software, estimated to be many tens of millions of lines in
+C++~\cite{hsfcwp}.
+
+This brings a challenge for HEP software. From the point of view of \emph{code
+efficiency} we require fast and efficient execution, high throughput, and
+scalability at large computer centres and across distributed infrastructures.
+Considering \emph{human efficiency} we would like a low barrier to entry for
+newcomers, the ability to prototype code rapidly, a broad ecosystem of well
+maintained packages, and excellent tooling for developers. These features are
+needed to make software able to deal efficiently with huge datasets, as well as
+accessible to a large group of developers.
 
 \subsection{From Fortran to the C++/Python Era}
 
-A bit of history from~\cite{pivarski2022}.
+In response to changing technology, and the needs of the field, the programming
+languages that are dominant in the field have evolved over time.
+From~\cite{pivarski2022} we can identify three major shifts as seen in
+\ref{fig:hep-languages}. 
 
-The situation today. Some thoughts on tradeoffs.
+\begin{figure}[htbp]
+    \begin{center}
+        \includegraphics[width=0.7\textwidth]{hep-programming-languages.png} \\ 
+        \caption{Illustrative cartoon of major shifts in HEP programming languages, from~\cite{pivarski2022}.}
+        \label{fig:hep-languages}
+    \end{center}
+\end{figure}
+
+\begin{description}
+    \item[From assembler to Fortran] As computers developed from early
+    specialised behemoths, with barely an operating system, improved programming
+    languages became available. For technical computing Fortran was the most
+    effective language and HEP quickly adopted it as it brought a much improved
+    syntax, as well as hardware portability.
+    \item[From Fortan to C++] Although Fortran had many advantages, HEP had to
+    develop language extensions to introduce concepts such as more advanced data
+    structures~\cite{Zoll:2296399}. A language which offered native object
+    orientation was an attractive choice. In addition, the gap afforded by the
+    end of the LEP accelerator and the construction of the LHC allowed the field
+    to afford the time for a major language shift.
+    \item[The rise of Python] Python earned a well deserved reputation as an
+    excellent language for programming efficiency, and also gained ground
+    through being the de facto interface to many machine learning libraries. It
+    has become widely used in HEP as a compliment to C++.
+\end{description}
+
+The current situation for HEP is that C++ and Python are now both widely used,
+with each bringing specific advantages, as well as drawbacks. Good C++ excels at
+runtime efficiency, but is a difficult language to learn and master as well as
+suffering from memory safety issues and being difficult to compose. Python is
+expressive, much easier to work with, is safer with memory and composes better
+(duck typing). However, it is very slow compared to C++, so not suitable for
+high throughput computing.
+
+As noted in~\cite{eschle2023potential}, using two languages is not ideal: it
+increases the required expertise, necessitates reimplementation of code for
+performance, and reduces code reusability.
 
 \section{Julia}
 
@@ -171,7 +218,13 @@ A bit about QuantumElectrodynamics.jl.
 
 \subsection{Simulation}
 
-Overview of Geant4.jl.
+Detector simulation is a crucial component of every High Energy Physics (HEP) experiment, playing a key role both during the design and conception of the detector and later in data analysis. The most widely used toolkit for this purpose is Geant4 \cite{GEANT4:2002zbu}, a C++-based framework with over 2 million lines of code.
+
+Given its complexity and extensive adoption, a complete rewrite of Geant4 in a new language is highly impractical. Instead, this presents an opportunity to explore Julia's interoperability with other languages. One particular challenge arises from Geant4's callback-based user interface, which relies on C++ virtual methods invoked at specific points during particle transport. Application developers must implement these callbacks to configure and control the simulation and extract relevant simulated data. However, integrating this mechanism in Julia is more complex than in other languages, as Julia does not natively support virtual methods.
+
+The Geant4.jl \cite{geant4-jl-github} package has been developed to provide a Julia interface to Geant4. It leverages CxxWrap.jl \cite{cxxwrap-jl-github}, a package that enables calling C++ functions and types from Julia. Similar to Python’s static bindings, invoking C++ code from Julia requires explicit wrapper definitions for each method exposed to Julia. However, given Geant4's large and complex codebase, manually writing and maintaining these wrappers is not a viable approach, especially for making it more sustainable with future toolkit updates. To address this, we use WrapIt \cite{wrapit-github}, a package that automates wrapper generation by utilizing the Clang library to parse C++ header files and extract class declarations. This automation significantly reduces development effort and ensures long-term maintainability of the interface.
+
+Integrating Geant4 with Julia allows researchers to take advantage of Julia's high-level programming capabilities and performance benefits while retaining the full functionality and efficiency of the Geant4 toolkit. This integration also provided an opportunity to rethink and streamline the interface, making it more intuitive and user-friendly. In particular, we focused on ensuring that application developers can concentrate on the essential aspects of their simulations while minimizing configuration overhead. Boilerplate code and C++ idiosyncrasies are hidden, allowing for a cleaner, more concise approach to defining simulations. The performance of the Geant4.jl package is comparable to that of the native C++ Geant4 toolkit, demonstrating the feasibility of using Julia for HEP detector simulation.
 
 \subsection{Reconstruction}
 
