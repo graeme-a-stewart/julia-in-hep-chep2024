@@ -14,7 +14,6 @@
 % \usepackage[frozencache,cachedir=.]{minted}
 
 \usepackage{natbib}
-\bibliographystyle{apalike}
 \usepackage{hyperref}
 \usepackage{enumitem} % This seems to cause nested itemize lists to break...?
 
@@ -166,14 +165,15 @@ performance, and reduces code reusability.
 Some of the design goals of the language. \emph{Julia Programming
 Language}~\cite{bib:julia_freshapproach,10.1145/3276490}
 
-The Julia programming language was announced in 2012 with a blog post entitled "Why We Created Julia"~\cite{bib:why-create-julia}.
+The Julia programming language was announced in 2012 with a blog post entitled "Why We Created Julia"~\cite{why-create-julia}.
 This document lists a series of ambitious goals for the language, and represents a view into the core developers' mindset formalised in a later paper~\cite{bib:julia_freshapproach,10.1145/3276490}.
 
 Julia's design attempts to provide a syntax as productive as Python, especially for numerical work, whilst leveraging JAOT\footnote{Just-Ahead-Of-Time} compilation to provide execution times
-on the order of those of compiled, statically typed languages like C and Rust. It utilises type inference - like that added post-hoc to C++, and as present in other 
-modern language by default - to allow the programmer add as much, or as little, detailed constraint to a program as they need. Like MatLab and Fortran,
+on the order of those of compiled, statically typed languages like C and Rust. It utilises type inference to allow coding in a "gradually typed", generic programming style, although the 
+language will always track types for performance behind the scenes, and types can be specified explicitly if required. Like MatLab and Fortran,
 Julia's native operations and type system support arrays as first-class entities, of any dimension, allowing array-oriented code to be both
-productively generated, and efficiently executed, with operations naturally "broadcasted" element- or dimension-wise. 
+productively generated, and efficiently executed, with operations naturally "broadcasted" element- or dimension-wise. This allows Julia to also be 
+effective for writing linear algebra heavy code. 
 
 %Design goals and aims
 %Open source
@@ -187,10 +187,31 @@ productively generated, and efficiently executed, with operations naturally "bro
 
 \subsection{Julia in Practice}
 
-Some code examples - demonstrate \emph{ease} and also give some benchmarks for
-speed.
+Julia's syntax is familiar to programmers conversant with programming performant code in Python with NumPy, except that whitespace is not
+syntactically relevant (blocks end with \textit{end}).
 
+For example, listing~\ref{listing1} shows some toy code to generate a grayscale image of the famous Mandelbr\"{o}t set:
+\begin{lstlisting}[language=Julia, caption={}, label=listing1]  
+using Images
 
+function mandel(z)
+    c = z
+    maxiter = 80
+    for n = 1:maxiter
+        if abs2(z) > 4
+            return n-1
+        end
+        z = z^2 + c
+    end
+    maxiter
+end
+
+set = [ mandel(complex(r,i)) for i=-1.:.01:1., r=-2.0:.01:0.5 ]
+img = Gray.(set ./ 80)
+\end{lstlisting}
+
+Here we demonstrate importing of packages (line 1), function declaration with implicit types and explicit loop and branch constructs, implicit loops via ``comprehensions'' to generate a  value for every point in an implicitly defined array, and, finally, transparent broadcasting of operations over that array (both the function call to Gray, and the division operation are distributed over the whole array). 
+Unlike Python, explicit loops are optimised efficiently, and are no slower than comprehensions or "functional-style" iterators (which are also supported by Julia).
 
 
 
@@ -201,19 +222,26 @@ As with other languages of the 2010s, Julia comes with a set of tools for managi
 choosing the system default.
 
 The integrated package management in Julia - via the Pkg library, or a sub-environment within a Julia REPL accessed by pressing '$]$', 
-tracks and maintains the dependency graph of a Julia project. State is entirely stored within two human-readable files - Manifest.toml and Project.toml
-. The user of a Julia codebase can easily reproduce the exact environment needed for the codebase, to the level of dependencies of 
-dependencies of packages, by simply using the "instantiate" command as long as the Project.toml file is provided.
+tracks and maintains the dependency graph of a Julia project. State is entirely stored within two human-readable files - Project.toml (which represents the 
+direct dependencies of the project) and Manifest.toml (which preserves the exact resulting environment, including secondary dependencies and exact versions).
+. The user of a Julia codebase can easily reproduce the exact environment used by the codebase as long as these files are provided.
+
 The Julia Package "General Registry" indexes packages and their releases, and (as with other languages such as Rust and Javascript) relies on a public
 index hosted on GitHub (with off-GitHub backups).
+A help environment, accessed by "?" on an empty line of the REPL, allows interactive help on any keyword or symbol known to the REPL; it is trivial to add documentation to a function or type 
+by simply prepending its definition with a triple-quoted string - this is immediately available to the help environment.
 
 Leveraging the fact that Julia is JAOT-compiled, and that this allows its entire standard library to be written in idiomatic Julia, the REPL also provides
 a series of powerful macro utilities for inspecting the byte- and machine-code generated for a given expression (\verb$@code_lowered$, \verb$@code_native$) and
 for locating and displaying the source code for any function in the current namespace, including from the standard library (\verb$@less$), as well as other introspection
-tools.
-A help environment, accessed by "?" on an empty line of the REPL, allows interactive help on any keyword or symbol known to the REPL's current state. This relies 
-on docstrings, but extended introspection tools are also available in optional packages (such as \texttt{About.jl}, which can provide information 
-on memory layout of datatypes and thread safety of functions).
+tools. Profiling of code in the REPL is similarly directly supported via macros (\verb$@benchmark$...), which provide detailed performance sampling, including execution time distributions and GC invocations.
+Extended introspection and profiling tools are also available in optional packages, such as \texttt{About.jl}, which can provide information 
+on memory layout of datatypes and thread safety of functions.
+
+A well-supported VSCode extension is available for the language, which also supports the standard LSP allowing it to support development in other editors. This includes 
+the usual benefits of code completion (and Unicode completion for non-ASCII characters), linting, highlighting and so on.
+
+Finally, Julia is one of the founding languages supported by Jupyter - being the "Ju" in the portmanteau - and also provides other native notebook implementations such as Pluto.jl. 
 
 \subsection{Key Design Features for Performance}
 
