@@ -18,6 +18,34 @@
 \usepackage{hyperref}
 \usepackage{enumitem} % This seems to cause nested itemize lists to break...?
 
+%for code snippets
+\usepackage{listings}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Julia definition (c) 2014 Jubobs
+%%
+\lstdefinelanguage{Julia}%
+  {morekeywords={abstract,begin,break,case,catch,const,continue,do,else,elseif,%
+      end,export,false,for,function,immutable,import,importall,if,in,%
+      macro,module,otherwise,quote,return,switch,true,try,type,typealias,%
+      using,while, where},%
+   sensitive=true,%
+   alsoother={$},%
+   morecomment=[l]\#,%
+   morecomment=[n]{\#=}{=\#},%
+   morestring=[s]{"}{"},%
+   morestring=[m]{'}{'},%
+}[keywords,comments,strings]%
+
+\lstset{%
+    language         = Julia,
+    basicstyle       = \ttfamily,
+    keywordstyle     = \textbf,
+    %%stringstyle      = \color{magenta},
+    commentstyle     = \textit,
+    showstringspaces = false,
+}
+%end for code snippets
+
 % For draftversion
 \usepackage{lineno}
 \linenumbers
@@ -138,9 +166,8 @@ performance, and reduces code reusability.
 Some of the design goals of the language. \emph{Julia Programming
 Language}~\cite{bib:julia_freshapproach,10.1145/3276490}
 
-The Julia programming language was announced formally to the world in 2012 with a blog post entitled "Why We Created Julia"\cite{bib:why-create-julia}.
-This document lists a series of ambitious goals for the language, and represents a view into the core developers' mindset, supplemented by the follow-up 
-community-contributed article "Why We Use Julia, 10 Years Later"\cite{why-julia-10}. 
+The Julia programming language was announced in 2012 with a blog post entitled "Why We Created Julia"~\cite{bib:why-create-julia}.
+This document lists a series of ambitious goals for the language, and represents a view into the core developers' mindset formalised in a later paper~\cite{bib:julia_freshapproach,10.1145/3276490}.
 
 Julia's design attempts to provide a syntax as productive as Python, especially for numerical work, whilst leveraging JAOT\footnote{Just-Ahead-Of-Time} compilation to provide execution times
 on the order of those of compiled, statically typed languages like C and Rust. It utilises type inference - like that added post-hoc to C++, and as present in other 
@@ -162,6 +189,8 @@ productively generated, and efficiently executed, with operations naturally "bro
 
 Some code examples - demonstrate \emph{ease} and also give some benchmarks for
 speed.
+
+
 
 
 
