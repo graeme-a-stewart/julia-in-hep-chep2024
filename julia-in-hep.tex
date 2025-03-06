@@ -216,13 +216,14 @@ img = Gray.(set ./ 80)
 \end{figure}
 
 Here we demonstrate importing of packages (line 1), function declaration with
-implicit types and explicit loop and branch constructs, implicit loops via
-``comprehensions'' to generate a  value for every point in an implicitly defined
-array, and, finally, transparent broadcasting of operations over that array
-(both the function call to Gray, and the division operation are distributed over
-the whole array). Unlike Python, explicit loops are optimised efficiently, and
-are no slower than comprehensions or ``functional-style'' iterators (which are
-also supported by Julia).
+implicit types (line 3) and explicit loop (line 6) and branch constructs (line
+7), implicit loops via ``comprehensions'' (line 15) to generate a  value for
+every point in an implicitly defined array, and, finally, transparent
+broadcasting of operations over that array (line 16 -- both the function call to
+Gray, and the division operation are distributed over the whole array). Unlike
+Python, explicit loops are optimised efficiently, and are no slower than
+comprehensions or ``functional-style'' iterators (which are also supported by
+Julia).
 
 %Tooling and ecosystem.
 As with other languages of the 2010s, Julia comes with a set of tools for
