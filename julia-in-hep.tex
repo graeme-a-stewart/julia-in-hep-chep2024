@@ -263,7 +263,44 @@ We can read that data... UpROOT.jl. EDM4hep.jl.
 
 \subsection{Event Generators}
 
-A bit about QuantumElectrodynamics.jl.
+The numerical calculation of amplitudes for hard scattering processes and Monte Carlo event
+generation plays a fundamental role in high-energy physics analysis workflows, with a
+long history (\cite{campbell2024event}). Consequently, integrating various aspects of physics models with specialized
+numerical algorithms in a high-performance computing environment is recognized as one major challenge
+in HEP software development for future HEP experiments (\cite{HEPSoftwareFoundation:2017ggl, HSFPhysicsEventGeneratorWG:2020gxw, HSFPhysicsEventGeneratorWG:2021xti}) and beyond.
+
+With the open-source framework \texttt{QuantumElectrodynamics.jl} \cite{qedjl-github}, we take the first steps in exploring
+how the Julia programming language can address these challenges. Specifically, our framework
+facilitates the numerical calculation of scattering amplitudes and the implementation of Monte
+Carlo event generation within the domain of perturbative and strong-field quantum electrodynamics (cf. \cite{Fedotov:2022ely}).
+The overall structure of the framework is unified through interfaces defined in \texttt{QEDbase.jl}, which provides
+standardized representations for fundamental mathematical objects such as four-momenta, bi-spinors, and
+phase space points. Additionally, these interfaces extend to the configuration entities like scattering processes,
+computational models, and phase space layouts.
+Further interfaces are provided for computable quantities, such as differential cross-sections,
+and various samplers for Monte Carlo event generation. Here, Julia’s multiple dispatch mechanism
+proves particularly powerful, allowing different implementations to be seamlessly integrated without explicitly
+specifying types within the interface definitions. Moreover, the domain-specific language facilitated by
+these interfaces—covering elements such as processes, models, and phase space layouts—combined with
+multiple dispatch enables the straightforward incorporation of analytical formulas whenever they are available.
+This typically reduces to implementing a single method for a specific function signature.
+
+Beyond its interface definitions, \texttt{QuantumElectrodynamics.jl} provides concrete implementations for all
+major components: \texttt{QEDcore.jl} handles the fundamental mathematical structures, \texttt{QEDprocesses.jl} computes
+differential cross sections, and \texttt{QEDevents.jl} offers different samplers for event generation.
+The \texttt{QEDFeynmanDiagrams.jl} package, as part of \texttt{QEDprocesses.jl}, facilitates the calculation of
+scattering amplitudes for arbitrary QED processes by leveraging Julia’s metaprogramming and code generation
+capabilities. Built on top of \texttt{ComputableDAGs.jl}, the generated code can be directly analyzed and manipulated
+within Julia itself, even without leaving the session. This enables meta-optimizations based on domain-specific knowledge, such as recognizing patterns in Feynman diagrams and exploiting mathematical properties like distributivity.
+
+Finally, by leveraging multiple dispatch and various array abstractions from the Julia ecosystem—such as \texttt{CUDA.jl}
+and \texttt{AMDGPU.jl}—the generated code can be seamlessly compiled and executed on GPUs in addition to CPUs, without
+requiring any modifications to its underlying structure.
+While some framework components are still under development and will be further extended to address
+broader challenges in high-energy physics, the initial structures demonstrate great potential. The modular design,
+combined with Julia’s capabilities, has the potential to contribute to future developments in numerical calculations
+and event generation within HEP.
+
 
 \subsection{Simulation}
 
@@ -285,7 +322,8 @@ Overview of analysis papers and suitability of Julia.
 
 \subsection{End-to-end Computing}
 
-The Legend Julia stack.
+The LEGEND~\cite{LEGEND:2017AIPC} experiment demonstrates how Julia can be used as a basis for end-to-end analysis in a larger physics experiment with multiple subsystems. LEGEND uses Julia as its official secondary software stack, both to verify the results of the primary software stack (written in Python) and as a test-bed for future software technologies. The whole data analysis chain, encompassing raw waveform data signal processing, ML-based data quality cuts, data calibration, event building and high-level statistical analysis is implemented completely in Julia. In addition, LEGEND uses the Bayesian Analysis Toolkit in Julia (BAT.jl)~\cite{Schulz:2021BAT} as it's primary Bayesian framework for both background decomposition and final physics analysis, and the Julia package SolidStateDetectors.jl~\cite{Abt:2021SSD} for detector simulation and detector design. With the exception of a custom Geant4-based software, the LEGEND collaboration is now able to perform any simulation and analysis task in Julia.
+
 
 \section{Conclusions}
 
