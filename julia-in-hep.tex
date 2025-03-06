@@ -279,6 +279,7 @@ Type system.
 Multiple dispatch.
 
 \section{Julia for Scientific Computing}
+\label{sec:juliascicomp}
 
 General adoption:~\cite{perkel-julia-science}.
 
@@ -289,6 +290,41 @@ Some HPC codes.
 \section{Julia in HEP}
 
 \subsection{Challenges}
+
+High-energy physics faces significant challenges in software efficiency and
+scaling for the years to come, particularly driven by the physics programme of
+the high-luminosity LHC~\cite{hsfcwp}. Data volumes will rise sharply and data
+complexity will also
+increase~\cite{CERN-LHCC-2022-005,Software:2815292,Valassi2021}. Therefore
+software efficiency and scaling are paramount. As we have seen in
+Section~\ref{sec:juliascicomp}, the Julia language can achieve both of these
+things.
+
+As a field, HEP is already polyglot, with C++ and Python being the principle
+languages, but many others co-existing. As pointed out above, there are millions
+of lines of legacy code, much in C++, but also in Fortran and Python with which
+any new language must interoperate. In this respect Julia is in a very strong
+position. For calling into C or Fortan, Julia offers a simple \texttt{@ccall}
+macro, which is a direct, no overhead, no boilerplate interface to libraries
+compiled from these languages~\cite{JuliaManualCCall}. There are many existing
+examples of calls to these foreign libraries being used in Julia, e.g., at a low
+level Julia itself uses the OpenBLAS library~\cite{6877458}, written in C and
+modern Fortran. 
+
+Python code can be similarly wrapped with
+\texttt{PythonCall.jl}~\cite{PythonCall.jl}.
+
+C++ code is more difficult to interface to, and the smoothest way to achieve it
+is to write a small wrapper in C++ to interface to Julia, the making use of the
+Julia interface package \texttt{CxxWrap.jl}~\cite{CxxWrap.jl}. This process can
+be automated with the helper program WrapIt!~\cite{wrapit-github}, which can
+generate wrapper code automatically from C++ headers. With this, wrapping very
+large libraries becomes much easier, as shown below in
+Section~\ref{sec:simulation}.
+
+
+The
+field has many millions of lines of legacy code as well, so 
 
 What does HEP need from its computing?
 
@@ -356,6 +392,7 @@ numerical calculations and event generation within HEP.
 
 
 \subsection{Simulation}
+\label{sec:simulation}
 
 Detector simulation is a crucial component of every High Energy Physics (HEP)
 experiment, playing a key role both during the design and conception of the
@@ -373,14 +410,14 @@ simulation and extract relevant simulated data. However, integrating this
 mechanism in Julia is more complex than in other languages, as Julia does not
 natively support virtual methods.
 
-The Geant4.jl \cite{geant4-jl-github} package has been developed to provide a
-Julia interface to Geant4. It leverages CxxWrap.jl \cite{cxxwrap-jl-github}, a
+The Geant4.jl~\cite{geant4-jl-github} package has been developed to provide a
+Julia interface to Geant4. It leverages CxxWrap.jl~\cite{CxxWrap.jl}, a
 package that enables calling C++ functions and types from Julia. Similar to
 Python's static bindings, invoking C++ code from Julia requires explicit wrapper
 definitions for each method exposed to Julia. However, given Geant4's large and
 complex codebase, manually writing and maintaining these wrappers is not a
 viable approach, especially for making it more sustainable with future toolkit
-updates. To address this, we use WrapIt \cite{wrapit-github}, a package that
+updates. To address this, we use WrapIt~\cite{wrapit-github}, a package that
 automates wrapper generation by utilizing the Clang library to parse C++ header
 files and extract class declarations. This automation significantly reduces
 development effort and ensures long-term maintainability of the interface.
