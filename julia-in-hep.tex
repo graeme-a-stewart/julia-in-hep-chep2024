@@ -278,58 +278,60 @@ performance, and productivity, we highlight two particular ones here.
 
 \subsubsection{Type System}
 
-Julia's type system is an expressive but simple tree of sets, where only leaves 
+Julia's type system is an expressive, but simple, tree of sets, where only leaves
 of the tree can be instantiated as concrete types. The higher levels of abstract
- types provide a means for expressing categories of types which are all supported
- by an operation, all the way up to the \verb$Any$ type, which contains all other
- types, and is the default type for function parameters if none are specified. 
-For example, using Julia's notation for "is a subtype of", the concrete type \verb$Float64$
- is in the following hierarchy:
+types provide a means for expressing categories of types which are all supported
+by an operation, all the way up to the \verb$Any$ type, which contains all other
+types, and is the default type for function parameters if none are specified.
+For example, using Julia's notation for ``is a subtype of'', \texttt{<:}, the concrete type
+\verb$Float64$ is in the following hierarchy:
 
 \verb$Float64 <: AbstractFloat <: Real <: Number <: Any$
 
-where all other levels are abstract, and thus cannot be used as the type for a binding.
-Other sibling subtypes of \verb$Real$ include \verb$Float32$, \verb$Int64$ and \verb$BigInt$.
+All higher levels are abstract, and thus cannot be used as the type for a
+binding. Other sibling subtypes of \verb$Real$ include \verb$Float32$,
+\verb$Int64$ and \verb$BigInt$.
 
-Abstract types \textit{can} be used as the type of an element of a container type, resulting in a container with boxed types where each element can be any concrete
- subtype of the element, and similarly for function parameters, where they constrain
- that parameter to taking the relevant concrete subtypes as values. 
+Abstract types \textit{can} be used as the type of an element of a container
+type, resulting in a container with boxed types, where each element can be any
+concrete subtype of the element, and similarly for function parameters, where
+they constrain that parameter to taking the relevant concrete subtypes as
+values. 
 
 Together, this allows complex type expressions such as
 
 \verb$AbstractArray{T,2}$ 
 
-representing a function argument that takes any Array-like type, of 2 dimensions,
-with an arbitrary element type T (which could be further constrained by annotation).
-As the subtypes of \verb$AbstractArray$ include performance specialised cases like
-diagonal and sparse arrays, and accelerated cases like GPU arrays (computed on
-an accelerator, not the CPU), all of these cases are naturally handled by the same
-function that supports this one type. 
+This represents a function argument that takes any Array-like type, of 2
+dimensions, with an arbitrary element type \texttt{T} (which could be further constrained
+by annotation). As the subtypes of \verb$AbstractArray$ include performance
+specialised cases like diagonal and sparse arrays, and accelerated cases like
+GPU arrays (computed on an accelerator, not the CPU), all of these cases are
+naturally handled by the same function that supports this one type. 
 
 \subsubsection{Multiple dispatch}
 
-The type system above allows for efficient specialisation of functions by the JAOT
- backend, based on the types they are called with.
-Unusually, Julia exposes this to the user, allowing specialisations of functions
-to be dispatched on the type of any (or all) parameters it is called with, not
-merely the first. This \textit{multiple dispatch} allows effective provision of
-efficient special cases for functions to be provided, powered entirely by the type
-system.
+The type system above allows for efficient specialisation of functions by the
+JAOT backend, based on the types they are called with. Unusually, Julia exposes
+this to the user, allowing specialisations of functions to be dispatched on the
+type of any (or all) parameters it is called with, not merely the first. This
+\textit{multiple dispatch} allows effective provision of efficient special cases
+for functions to be provided, powered entirely by the type system.
 
 Extending the nomenclature for the \textit{single dispatch} used by
 class-based object orientation, Julia considers the variants of a function
-distinguished by their type signatures to be separate "methods". 
+distinguished by their type signatures to be separate ``methods''.
 
 The runtime resolution of function dispatch also allows seamless composition
 of functionality between packages, without the need for special case
 code in any of the involved.
 
-For example, in the code~\ref{code:plotmeasure} below, the Plots and
-DifferentialEquations packages do not know about Measurements - and yet
-the types provided by Measurements can seamlessly extend their
-functionality (as well as providing their own extensions of mathematical
-operations), resulting in the plot combining all the features of the
-packages seamlessly.
+For example, in the code listing from Figure~\ref{code:plotmeasure} below, the
+\texttt{Plots} and \texttt{DifferentialEquations} packages do not know about
+\texttt{Measurements} -- and yet the types provided by \texttt{Measurements} can
+seamlessly extend their functionality (as well as providing their own extensions
+of mathematical operations), resulting in the plot combining all the features of
+the packages seamlessly.
 
 \begin{figure}[!ht]
 \begin{subfigure}[t!]{0.5\textwidth}
@@ -353,8 +355,8 @@ packages seamlessly.
 \begin{subfigure}[t!]{0.5\textwidth}
     \includegraphics[width=0.9\textwidth]{errorbars.png}
 \end{subfigure}
-    \caption{Plot with Measurements of numerical solution using DifferentialEquations, 
-    composed via multiple dispatch and type system.}
+    \caption{Plot with \texttt{Measurements} of numerical solution using \texttt{DifferentialEquations}, 
+    composed via multiple dispatch and the Julia type system.}
     \label{code:plotmeasure}
     \end{figure}
 
