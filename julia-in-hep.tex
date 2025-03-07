@@ -183,6 +183,7 @@ fully open-source language, with its entire codebase freely available (and
 almost all of it written in Julia itself).
 
 \subsection{Julia in Practice}
+\label{sec:juliainpractice}
 
 Julia's syntax is familiar to programmers conversant with programming performant
 code in Python with NumPy, except that whitespace is not syntactically relevant
@@ -294,7 +295,9 @@ chip, and \texttt{oneAPI.jl}~\cite{Besard_oneAPI_jl_2022} for Intel devices.
 They require a small amount of programming development and provide the
 possibility of writing kernels with granular control.
 
-Array based calculations are trivial to execute on the GPU. The listings in Figure~\ref{code:arraysgpu} an array is copied to the GPU and then executes a simple operation. 
+Array based calculations are trivial to execute on the GPU. The listings in
+Figure~\ref{code:arraysgpu} an array is copied to the GPU and then executes a
+simple operation. 
 
 \begin{figure}[!ht]
 \centering
@@ -376,14 +379,25 @@ helper program WrapIt!~\cite{wrapit-github}, which can generate wrapper code
 automatically from C++ headers. With this, wrapping very large libraries becomes
 much easier, as shown below in Section~\ref{sec:simulation}.
 
+The other major desiderata for a programming language is that it is efficient
+for programmers -- and for HEP this must cover the spectrum from novice coders
+to experienced software engineers. As illustrated in Section
+\ref{sec:juliainpractice} Julia's development ecosystem is optimised for
+efficient code development~\cite{perkel-julia-science}. Features such as the
+REPL, as well as notebooks, are hugely helpful at the prototyping stage.
+Effective dependency tracking and package management ensure that environments
+are reproducible (co-development on different platforms, such as different Linux
+distributions, OS X and Windows is generally a breeze). High-level abstractions
+make Julia highly expressive, leading to efficient, compact code. Finally, the
+JAOT model, combined with types, makes code optimisation, from prototype to
+production, generally a smoother path than in other language environments.
 
-
-The
-field has many millions of lines of legacy code as well, so 
-
-What does HEP need from its computing?
-
-Cite some general overviews:~\cite{Stanitzki:2020bnx,eschle2023potential}.
+Of course, a language having suitable \emph{general} features, does not
+automatically mean that everything needed by researchers in a particular field,
+such as high-energy physics, have the tools and packages that they need. In the
+next sections we shall outline the growing ecosystem of packages specifically
+developed for HEP that make is possible to be productive with Julia from day 1
+of coding. 
 
 \subsection{HEP Data Formats}
 
@@ -496,6 +510,8 @@ JetReconstruction.jl
 \subsection{Analysis}
 
 Overview of analysis papers and suitability of Julia.
+
+Cite some general overviews:~\cite{Stanitzki:2020bnx,eschle2023potential}.
 
 \subsection{End-to-end Computing}
 
