@@ -44,6 +44,18 @@
   doi       = {10.1145/2503210.2503219}
 }
 
+@article{8471188,
+  author   = {Besard, Tim and Foket, Christophe and De Sutter, Bjorn},
+  journal  = {IEEE Transactions on Parallel and Distributed Systems},
+  title    = {Effective Extensible Programming: Unleashing Julia on GPUs},
+  year     = {2019},
+  volume   = {30},
+  number   = {4},
+  pages    = {827-841},
+  keywords = {Graphics processing units;Programming;Hardware;High level languages;Libraries;Graphics processors;very high-level languages;code generation;retargetable compilers},
+  doi      = {10.1109/TPDS.2018.2872064}
+}
+
 @article{Abt:2021SSD,
   author    = {Abt, I. and Fischer, F. and Hagemann, F. and Hauertmann, L. and Schulz, O. and Schuster, M. and Zsigmond, A. J.},
   title     = {Simulation of semiconductor detectors in 3D with SolidStateDetectors.jl},
@@ -56,6 +68,52 @@
   pages     = {P08007},
   doi       = {10.1088/1748-0221/16/08/p08007},
   url       = {https://doi.org/10.1088/1748-0221/16/08/p08007}
+}
+
+@software{Besard_Metal_jl_2022,
+  author  = {Besard, Tim and Hawkins, Max},
+  doi     = {10.5281/zenodo.7139374},
+  month   = oct,
+  title   = {{Metal.jl}},
+  url     = {https://github.com/JuliaGPU/Metal.jl},
+  version = {0.1.2},
+  year    = {2022}
+}
+
+@software{Besard_oneAPI_jl_2022,
+  author  = {Besard, Tim},
+  doi     = {10.5281/zenodo.7139359},
+  month   = oct,
+  title   = {{oneAPI.jl}},
+  url     = {https://github.com/JuliaGPU/oneAPI.jl},
+  version = {0.3.0},
+  year    = {2022}
+}
+
+@article{besard2018juliagpu,
+  author        = {Besard, Tim and Foket, Christophe and De Sutter, Bjorn},
+  title         = {Effective Extensible Programming: Unleashing {Julia} on {GPUs}},
+  journal       = {IEEE Transactions on Parallel and Distributed Systems},
+  year          = {2018},
+  doi           = {10.1109/TPDS.2018.2872064},
+  issn          = {1045-9219},
+  archiveprefix = {arXiv},
+  eprint        = {1712.03112},
+  primaryclass  = {cs.PL}
+}
+
+@article{BESARD201929,
+  title    = {Rapid software prototyping for heterogeneous and distributed platforms},
+  journal  = {Advances in Engineering Software},
+  volume   = {132},
+  pages    = {29-46},
+  year     = {2019},
+  issn     = {0965-9978},
+  doi      = {https://doi.org/10.1016/j.advengsoft.2019.02.002},
+  url      = {https://www.sciencedirect.com/science/article/pii/S0965997818310123},
+  author   = {Tim Besard and Valentin Churavy and Alan Edelman and Bjorn De Sutter},
+  keywords = {Julia, Generic programming, Heterogeneous systems, CUDA, Distributed computing},
+  abstract = {The software needs of scientists and engineers are growing and their programs are becoming more compute-heavy and problem-specific. This has led to an influx of non-expert programmers, who need to use and program high-performance computing platforms. With the continued stagnation of single-threaded performance, using hardware accelerators such as GPUs or FPGAs is necessary. Adapting software to these compute platforms is a difficult task, especially for non-expert programmers, leading to applications being unable to take advantage of new hardware or requiring extensive rewrites. We propose a programming model that allows non-experts to benefit from high-performance computing, while enabling expert programmers to take full advantage of the underlying hardware. In this model, programs are generically typed, the location of the data is encoded in the type system, and multiple dispatch is used to select functionality based on the type of the data. This enables rapid prototyping, retargeting and reuse of existing software, while allowing for hardware specific optimization if required. Our approach allows development to happen in one source language enabling domain experts and performance engineers to jointly develop a program, without the overhead, friction, and challenges associated with developing in multiple programming languages for the same project. We demonstrate the viability and the core principles of this programming model in Julia using realistic examples, showing the potential of this approach for rapid prototyping, and its applicability for real-life engineering. We focus on usability for non-expert programmers and demonstrate that the potential of the underlying hardware can be fully exploited.}
 }
 
 @article{bib:julia_freshapproach,
@@ -152,6 +210,7 @@
   year          = {2023}
 }
 
+
 @article{Gaede:2022leb,
   author  = {Gaede, Frank and Madlener, Thomas and Declara Fernandez, Placido and Ganis, Gerardo and Hegner, Benedikt and Helsens, Clement and Sailer, Andre and A. Stewart, Graeme and Voelkl, Valentin},
   title   = {{EDM4hep - a common event data model for HEP experiments}},
@@ -168,6 +227,7 @@
   title  = {{Geant4.jl}},
   url    = {https://github.com/JuliaHEP/Geant4.jl}
 }
+
 
 @article{GEANT4:2002zbu,
   author        = {Agostinelli, S. and others},
@@ -211,7 +271,6 @@
   url     = {https://doi.org/10.1007/s41781-018-0018-8}
 }
 
-
 @article{HSFPhysicsEventGeneratorWG:2020gxw,
   author        = {Amoroso, Simone and others},
   editor        = {Valassi, Andrea and Yazgan, Efe and McFayden, Josh},
@@ -241,6 +300,13 @@
   year          = {2021}
 }
 
+@article{innes:2018,
+  author  = {Mike Innes},
+  title   = {Flux: Elegant Machine Learning with Julia},
+  journal = {Journal of Open Source Software},
+  year    = {2018},
+  doi     = {10.21105/joss.00602}
+}
 
 @online{jetreco-docs,
   title = {JetReconstruction.jl Documentation},
@@ -263,6 +329,49 @@
   author = {{Julia Manual}},
   title  = {Calling C and Fortran Code},
   url    = {https://docs.julialang.org/en/v1/manual/calling-c-and-fortran-code/}
+}
+
+@software{julian_samaroo_2025_14826765,
+  author    = {Julian Samaroo and
+               Anton Smirnov and
+               Valentin Churavy and
+               Alexis Montoison and
+               Ludovic Räss and
+               Torrance Hodgson and
+               Wiktor Phillips and
+               Ali Ramadhan and
+               Tim Besard and
+               Gabriel Baraldi and
+               Julia TagBot and
+               Michel Schanen and
+               William Bernoudy and
+               Stephan Antholzer and
+               Takafumi Arakaki and
+               Mosè Giordano and
+               Carsten Bauer and
+               jariji and
+               Utkarsh and
+               Tom Hu and
+               Tim Gymnich and
+               Samuel Omlin and
+               Oscar Smith and
+               Matin Raayai and
+               Martin Kunz and
+               Lewin Bormann and
+               Jukka Aho},
+  title     = {JuliaGPU/AMDGPU.jl: v1.2.3},
+  month     = feb,
+  year      = 2025,
+  publisher = {Zenodo},
+  version   = {v1.2.3},
+  doi       = {10.5281/zenodo.14826765},
+  url       = {https://doi.org/10.5281/zenodo.14826765},
+  swhid     = {swh:1:dir:2c726943251e8e2dc383f27001ca8fb7a956e16f
+               ;origin=https://doi.org/10.5281/zenodo.4677700;vis
+               it=swh:1:snp:48841f730a7289b3454d373da2b9f09b0cd50
+               3a6;anchor=swh:1:rel:5cf34873073999962a6b9d5e882b2
+               aa87b3adc15;path=JuliaGPU-AMDGPU.jl-5e631f9
+               }
 }
 
 @inproceedings{LEGEND:2017AIPC,
@@ -368,6 +477,16 @@
   url    = {https://github.com/QEDjl-project}
 }
 
+@article{Ramadhan_Oceananigans_jl_Fast_and_2020,
+  author  = {Ramadhan, Ali and Wagner, Gregory LeClaire and Hill, Chris and Jean-Michel, Campin and Churavy, Valentin and Souza, Andre and Edelman, Adam and Ferrari, Raffaele and Marshall, John},
+  doi     = {10.21105/joss.02018},
+  journal = {Journal of Open Source Software},
+  number  = {53},
+  pages   = {2018},
+  title   = {{Oceananigans.jl: Fast and friendly geophysical fluid dynamics on GPUs}},
+  volume  = {5},
+  year    = {2020}
+}
 @online{rust-lang,
   title = {Rust},
   url   = {https://www.rust-lang.org}
@@ -484,6 +603,7 @@
   title  = {{Automatic generation of C++ -- Julia bindings}},
   url    = {https://github.com/grasph/wrapit}
 }
+
 @article{Zoll:2296399,
   author = {Zoll, J and Brun, René and Shiers, J and Banerjee, S and
             Schaile, O and Holl, B and },
@@ -492,4 +612,3 @@
   url    = {https://cds.cern.ch/record/2296399},
   note   = {CERN Program Library Long Writeups}
 }
-

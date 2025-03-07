@@ -234,7 +234,7 @@ machine, including tracking particular patch releases, and choosing the system
 default.
 
 The integrated package management in Julia -- via the Pkg library, or a
-sub-environment within a Julia REPL accessed by pressing '$]$', tracks and
+sub-environment within a Julia REPL accessed by pressing `\texttt{]}', tracks and
 maintains the dependency graph of a Julia project. State is entirely stored
 within two human-readable files - \texttt{Project.toml} (which represents the direct
 dependencies of the project) and \texttt{Manifest.toml} (which preserves the exact
@@ -245,7 +245,7 @@ the codebase as long as these files are provided.
 The Julia Package ``General Registry'' indexes packages and their releases, and
 (as with other languages such as Rust and Javascript) relies on a public index
 hosted on GitHub (with off-GitHub backups). A help environment, accessed by
-\texttt{?} on an empty line of the REPL, allows interactive help on any keyword
+`\texttt{?}' on an empty line of the REPL, allows interactive help on any keyword
 or symbol known to the REPL; it is trivial to add documentation to a function or
 type by simply prepending its definition with a triple-quoted string -- this is
 immediately available to the help environment.
@@ -285,9 +285,16 @@ General adoption:~\cite{perkel-julia-science}.
     
 \subsection{GPU Programming}
 
-Julia's JAOT compilation model makes it ideal for running on GPUs. Julia supports GPU programming for backends such as CUDA.jl for NVIDIA, AMDGPU.jl for AMD, Metal.jl for Mac devices with M-series chip, and oneAPI.jl for Intel. They require a small amount of programming development and provide the possibility of writing kernels with granular control. In addition, KernelAbstractions.jl allows writing of generic code that can be run on any of the GPU backends.  
+Julia's JAOT compilation model makes it ideal for running on GPUs. Julia
+supports GPU programming for specific backends such as
+\texttt{CUDA.jl}~\cite{besard2018juliagpu} for NVIDIA,
+\texttt{AMDGPU.jl}~\cite{julian_samaroo_2025_14826765} for AMD,
+\texttt{Metal.jl}~\cite{Besard_Metal_jl_2022} for Mac devices with M-series
+chip, and \texttt{oneAPI.jl}~\cite{Besard_oneAPI_jl_2022} for Intel devices.
+They require a small amount of programming development and provide the
+possibility of writing kernels with granular control.
 
-Array based calculations are trivial to execute on the GPU. In Figure~\ref{code:arraysgpu} an array is copied to the GPU and then executes a simple operation. 
+Array based calculations are trivial to execute on the GPU. The listings in Figure~\ref{code:arraysgpu} an array is copied to the GPU and then executes a simple operation. 
 
 \begin{figure}[!ht]
 \centering
@@ -319,7 +326,18 @@ a * 2
 \label{code:arraysgpu}
 \end{figure}
 
-It's not always possible to write an algorithm and run it using high-level abstractions. Instead you have to write your own GPU kernel and Kernel programming is close to the native toolkits.  
+It is not always possible to write an algorithm and run it using high-level
+array abstractions. Instead you have to write your own GPU kernel and Kernel
+programming is close to the native toolkits.  Writing and maintaining specific
+backend code is undesirable, from a portability point of view. Therefore Julia
+also supports a generic backend,
+\texttt{KernelAbstractions.jl}~\cite{BESARD201929,8471188}. This allows
+developers to separate the mathematical logic of their codes from the specific
+GPU backend on which it will run, resulting in high code portability. This
+feature is used heavily in Julia codes from \texttt{Flux.jl}~\cite{innes:2018},
+for machine learning; to
+\texttt{Oceananigans.jl}~\cite{Ramadhan_Oceananigans_jl_Fast_and_2020}, a fluid
+dynamics code.
 
 \subsection{Julia HPC codes}
 
@@ -350,13 +368,14 @@ modern Fortran.
 Python code can be similarly wrapped with
 \texttt{PythonCall.jl}~\cite{PythonCall.jl}.
 
-C++ code is more difficult to interface to, and the smoothest way to achieve it
-is to write a small wrapper in C++ to interface to Julia, the making use of the
-Julia interface package \texttt{CxxWrap.jl}~\cite{CxxWrap.jl}. This process can
-be automated with the helper program WrapIt!~\cite{wrapit-github}, which can
-generate wrapper code automatically from C++ headers. With this, wrapping very
-large libraries becomes much easier, as shown below in
-Section~\ref{sec:simulation}.
+C++ code is more difficult to interface to (a `feature' of C++ itself), and the
+smoothest way to achieve it is to write a small wrapper in C++ to interface to
+Julia, the making use of the Julia interface package
+\texttt{CxxWrap.jl}~\cite{CxxWrap.jl}. This process can be automated with the
+helper program WrapIt!~\cite{wrapit-github}, which can generate wrapper code
+automatically from C++ headers. With this, wrapping very large libraries becomes
+much easier, as shown below in Section~\ref{sec:simulation}.
+
 
 
 The
