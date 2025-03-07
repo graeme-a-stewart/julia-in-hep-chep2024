@@ -354,8 +354,10 @@ the high-luminosity LHC~\cite{hsfcwp}. Data volumes will rise sharply and data
 complexity will also
 increase~\cite{CERN-LHCC-2022-005,Software:2815292,Valassi2021}. Therefore
 software efficiency and scaling are paramount. As we have seen in
-Section~\ref{sec:juliascicomp}, the Julia language can achieve both of these
-things.
+Section~\ref{sec:juliascicomp}, the Julia language can achieve very efficient
+execution on HPC clusters of CPUs and GPU accelerated nodes. It has also been
+shown that Julia artefacts can be effectively distributed on CVMFS, so that efficient
+running on, e.g., WLCG sites, would be possible~\cite{elvis_cvmfs_caching}.
 
 As a field, HEP is already polyglot, with C++ and Python being the principle
 languages, but many others co-existing. As pointed out above, there are millions
@@ -479,17 +481,18 @@ simulation and extract relevant simulated data. However, integrating this
 mechanism in Julia is more complex than in other languages, as Julia does not
 natively support virtual methods.
 
-The Geant4.jl~\cite{geant4-jl-github} package has been developed to provide a
-Julia interface to Geant4. It leverages CxxWrap.jl~\cite{CxxWrap.jl}, a
-package that enables calling C++ functions and types from Julia. Similar to
-Python's static bindings, invoking C++ code from Julia requires explicit wrapper
-definitions for each method exposed to Julia. However, given Geant4's large and
-complex codebase, manually writing and maintaining these wrappers is not a
-viable approach, especially for making it more sustainable with future toolkit
-updates. To address this, we use WrapIt~\cite{wrapit-github}, a package that
-automates wrapper generation by utilizing the Clang library to parse C++ header
-files and extract class declarations. This automation significantly reduces
-development effort and ensures long-term maintainability of the interface.
+The \texttt{Geant4.jl}~\cite{geant4-jl-github} package has been developed to
+provide a Julia interface to Geant4~\cite{ALLISON2016186}. It leverages
+\texttt{CxxWrap.jl}~\cite{CxxWrap.jl}, a package that enables calling C++
+functions and types from Julia. Similar to Python's static bindings, invoking
+C++ code from Julia requires explicit wrapper definitions for each method
+exposed to Julia. However, given Geant4's large and complex codebase, manually
+writing and maintaining these wrappers is not a viable approach, especially for
+making it more sustainable with future toolkit updates. To address this, we use
+WrapIt~\cite{wrapit-github}, a package that automates wrapper generation by
+utilizing the Clang library to parse C++ header files and extract class
+declarations. This automation significantly reduces development effort and
+ensures long-term maintainability of the interface.
 
 Integrating Geant4 with Julia allows researchers to take advantage of Julia's
 high-level programming capabilities and performance benefits while retaining the
@@ -499,13 +502,35 @@ intuitive and user-friendly. In particular, we focused on ensuring that
 application developers can concentrate on the essential aspects of their
 simulations while minimizing configuration overhead. Boilerplate code and C++
 idiosyncrasies are hidden, allowing for a cleaner, more concise approach to
-defining simulations. The performance of the Geant4.jl package is comparable to
-that of the native C++ Geant4 toolkit, demonstrating the feasibility of using
-Julia for HEP detector simulation.
+defining simulations. The performance of the \texttt{Geant4.jl} package is
+comparable to that of the native C++ Geant4 toolkit, demonstrating the
+feasibility of using Julia for HEP detector simulation.
 
 \subsection{Reconstruction}
 
-JetReconstruction.jl
+Reconstruction of HEP data is a core task for the field, and a huge amount of
+software, often rather detector specific, is dedicated to that task. Even for
+very detector specific code there are some early demonstrations that Julia would
+be suitable, and can be competitive with modern optimised C++ on multiple
+different GPU backends, e.g., for the CMS pixel detector~\cite{patatrack_julia}.
+
+For generic reconstruction tasks there is less code in general, however, for the
+task of sequential jet reconstruction, the Fastjet
+package~\cite{Cacciari:2011ma} has seen very wide adoption across many
+experiments. There is now a native Julia reimplementation of many of the same
+algorithms as are found in Fastjet, in the \texttt{JetReconstruction.jl}
+package~\cite{polyglot-jets-conference,stewart_2025_14945660}. Code ergonomics
+have been found to be superior, taking advantage of many of Julia's features
+such as array broadcasting and generic programming. Performance is, on average
+16\% better than Fastjet for popular $pp$ reconstruction algorithms, and 33\%
+better for the Durham algorithm for $e^+e^-$ events in FCCee
+studies~\cite{fast-jet-reco-julia}. Using Julia's package extension mechanisms,
+support for the ubiquitous EDM4hep~\cite{Gaede:2022leb} event data model is
+supported directly. This adds to the user experience, where not only can the
+package offer simpler, more generic interfaces than Fastjet, but there is the
+ability to seamlessly hook into the rest of the Julia ecosystem, e.g., for jet
+visualisation with the native Julia \texttt{Makie.jl}
+package~\cite{Danisch2021}.
 
 \subsection{Analysis}
 
