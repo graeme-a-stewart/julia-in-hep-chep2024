@@ -402,6 +402,7 @@ developed for HEP that make is possible to be productive with Julia from day 1
 of coding. 
 
 \subsection{HEP Data Formats}
+\label{sec:hepdataformats}
 
 We can read that data... UpROOT.jl. EDM4hep.jl.
 
@@ -511,8 +512,11 @@ feasibility of using Julia for HEP detector simulation.
 Reconstruction of HEP data is a core task for the field, and a huge amount of
 software, often rather detector specific, is dedicated to that task. Even for
 very detector specific code there are some early demonstrations that Julia would
-be suitable, and can be competitive with modern optimised C++ on multiple
-different GPU backends, e.g., for the CMS pixel detector~\cite{patatrack_julia}.
+be suitable, and can be competitive with modern optimised C++ for a large
+exeperiment on multiple different GPU backends, e.g., for the CMS pixel
+detector~\cite{patatrack_julia}. For smaller experiments, there are already
+end-to-end solutions based on Julia, as shown below in
+Section~\ref{sec:e2dlegend}.
 
 For generic reconstruction tasks there is less code in general, however, for the
 task of sequential jet reconstruction, the Fastjet
@@ -534,11 +538,34 @@ package~\cite{Danisch2021}.
 
 \subsection{Analysis}
 
-Overview of analysis papers and suitability of Julia.
+In most HEP experiments, after the main production of reconstructed objects at a
+level suitable for analysis (DSTs, NTuples, AODs), the path to publication
+diverges into many individual and group physics analyses. For this stage, as
+there is a relative independence from code in other languages, Julia can be a
+highly efficient alternative to other analysis pipelines. An overview of the
+suitability of Julia for analysis is found in Stanitzki and
+Strube~\cite{Stanitzki:2020bnx}. It is notable that statistical tools are well
+supported in Julia, e.g., the Julia Statistics community~\cite{JuliaStats} is a
+good entry point and HEP specific histograming needs are supported by the
+\texttt{FHist.jl}~\cite{Ling_FHist_jl_Fast_and_2023}, e.g., error propagation
+and high performance.
 
-Cite some general overviews:~\cite{Stanitzki:2020bnx,eschle2023potential}.
+At this phase of the analysis, data, usually in ROOT format, is read (see
+Section~\ref{sec:hepdataformats}), which is straight forward with
+\texttt{UnROOT.jl}~\cite{Gal_UnROOT_an_I_O_2021}. Then there is a growing
+ecosystem of packages dedicated to HEP analysis. For example, for hadron physics
+one can use \texttt{ThreeBodyDecays.jl}~\cite{Mikhasenko_ThreeBodyDecays_jl} to
+build hadronic decays with cascade reactions. Partial-wave analysis is then a
+common technique, which is supported
+by~\texttt{PartialWaveFunctions.jl}~\cite{Mikhasenko_PartialWaveFunctions_jl},
+as well as fitting hardonic line shapes, via
+\texttt{HadronicLineshapes.jl}~\cite{HadronicLineshapes.jl}.
+
+Such a corpus of packages have been used to support many final physics
+analyses, e.g.,~\cite{Aaij2022,PhysRevD.104.L091102,Bibrzycki2021}.
 
 \subsection{End-to-end Computing}
+\label{sec:e2dlegend}
 
 The LEGEND~\cite{LEGEND:2017AIPC} experiment demonstrates how Julia can be used
 as a basis for end-to-end analysis in a larger physics experiment with multiple
@@ -548,9 +575,9 @@ test-bed for future software technologies. The whole data analysis chain,
 encompassing raw waveform data signal processing, ML-based data quality cuts,
 data calibration, event building and high-level statistical analysis is
 implemented completely in Julia. In addition, LEGEND uses the Bayesian Analysis
-Toolkit in Julia (BAT.jl)~\cite{Schulz:2021BAT} as its primary Bayesian
+Toolkit in Julia (\texttt{BAT.jl})~\cite{Schulz:2021BAT} as its primary Bayesian
 framework for both background decomposition and final physics analysis, and the
-Julia package SolidStateDetectors.jl~\cite{Abt:2021SSD} for detector simulation
+Julia package \texttt{SolidStateDetectors.jl}~\cite{Abt:2021SSD} for detector simulation
 and detector design. With the exception of a custom Geant4-based software, the
 LEGEND collaboration is now able to perform any simulation and analysis task in
 Julia.
