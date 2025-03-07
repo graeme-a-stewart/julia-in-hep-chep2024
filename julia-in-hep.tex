@@ -285,7 +285,7 @@ General adoption:~\cite{perkel-julia-science}.
     
 \subsection{GPU Programming}
 
-Julia's JAOT compilation model makes it ideal for running on GPUs. Julia supports GPU programming for backends such as CUDA.jl for NVIDIA, AMDGPU.jl for AMD, Metal.jl for Mac devices with M-series chip, and oneAPI.jl for Intel. They require a small amount of programming development and provide the possibility of writing kernels with granular control. In addition, KernelAbstractions.jl allows writing of generic code that can be run on any of the GPU backends.  
+Julia's JAOT compilation model makes it ideal for running on GPUs. Julia supports GPU programming for backends such as CUDA.jl for NVIDIA, AMDGPU.jl for AMD, Metal.jl for Mac devices with M-series chip, and oneAPI.jl for Intel. They require a small amount of programming and provide the possibility of writing kernels with granular control. In addition, KernelAbstractions.jl allows writing of generic code that can be run on any of the GPU backends.  
 
 Array based calculations are trivial to execute on the GPU. In Figure~\ref{code:arraysgpu} an array is copied to the GPU and then executes a simple operation. 
 
@@ -322,6 +322,8 @@ a * 2
 It's not always possible to write an algorithm and run it using high-level abstractions. Instead you have to write your own GPU kernel and Kernel programming is close to the native toolkits.  
 
 \subsection{Julia HPC codes}
+
+
 
 \section{Julia in HEP}
 
