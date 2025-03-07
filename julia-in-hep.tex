@@ -61,7 +61,7 @@ School of Physics \& Astronomy, University of Glasgow, Glasgow, United Kingdom, 
 
 \abstract{%
 Julia is a mature general-purpose programming language, with a large ecosystem
-of libraries and more than 10000 third-party packages, which specifically
+of libraries and more than 12000 third-party packages, which specifically
 targets scientific computing. As a language, Julia is as dynamic, interactive,
 and accessible as Python with NumPy, but achieves run-time performance on par
 with C/C++. In this paper, we describe the state of adoption of Julia in HEP,
@@ -282,10 +282,46 @@ Multiple dispatch.
 \label{sec:juliascicomp}
 
 General adoption:~\cite{perkel-julia-science}.
+    
+\subsection{GPU Programming}
 
-GPU programming.
+Julia's JAOT compilation model makes it ideal for running on GPUs. Julia supports GPU programming for backends such as CUDA.jl for NVIDIA, AMDGPU.jl for AMD, Metal.jl for Mac devices with M-series chip, and oneAPI.jl for Intel. They require a small amount of programming development and provide the possibility of writing kernels with granular control. In addition, KernelAbstractions.jl allows writing of generic code that can be run on any of the GPU backends.  
 
-Some HPC codes.
+Array based calculations are trivial to execute on the GPU. In Figure~\ref{code:arraysgpu} an array is copied to the GPU and then executes a simple operation. 
+
+\begin{figure}[!ht]
+\centering
+\begin{minted}[linenos]{julia}
+using CUDA
+
+a = CuArray([1,2,3,4])
+a * 2
+\end{minted}
+\begin{minted}[linenos]{julia}
+using AMDGPU
+
+a = ROCArray([1,2,3,4])
+a * 2
+\end{minted}
+\begin{minted}[linenos]{julia}
+using Metal
+
+a = MtlArray([1,2,3,4])
+a * 2
+\end{minted}
+\begin{minted}[linenos]{julia}
+using oneAPI
+
+a = oneArray([1,2,3,4])
+a * 2
+\end{minted}
+\caption{Array based calculations for all backends}
+\label{code:arraysgpu}
+\end{figure}
+
+It's not always possible to write an algorithm and run it using high-level abstractions. Instead you have to write your own GPU kernel and Kernel programming is close to the native toolkits.  
+
+\subsection{Julia HPC codes}
 
 \section{Julia in HEP}
 
