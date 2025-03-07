@@ -343,6 +343,13 @@ for machine learning; to
 dynamics code.
 
 \subsection{Julia HPC codes}
+Beyond the single-computer practices exemplified above, large-scale applications often require high-performance computing (HPC) technologies. In this domain, Julia has established itself as a strong contender alongside well-known HPC-capable programming languages such as C, C++, and Fortran. Benchmarks evaluating intra- and inter-node communication on CPUs have demonstrated that Julia introduces negligible overhead compared to native C implementations \cite{hunold2020benchmarking}. 
+
+A particularly noteworthy achievement is the near-zero-loss integration of MPI through \texttt{MPI.jl} \cite{byrne2021mpi}, enabling efficient parallel communication. Furthermore, when it comes to computational performance, Julia has demonstrated its ability to keep up with traditional HPC technologies. For instance, in single-CPU-node scenarios, Julia's performance matches that of vendor-optimized libraries \cite{giordano2022productivity}. Similarly, performance portability studies in multi-node CPU/GPU benchmarks confirm Julia's competitiveness across architectures \cite{teichgraber2022julia,godoy2023evaluating}.
+
+Beyond controlled benchmarking environments, Julia has also proven its capabilities in real-world HPC applications. One prominent example is the \texttt{Celeste.jl} project \cite{RiegerIEEE:2018,RiegerAAS:2019}, where developers achieved a peak performance of \(1.54\,\mathrm{PFLOPs}\) demonstrating Julia's scalability, efficiency in large-scale computations and, consequently, membership of the petaflop club.
+
+More recently, Julia has been advancing multi-GPU and multi-CPU applications in large-scale simulations. Notable examples include \texttt{FastIce.jl}\cite{fasticejl-github} for high-resolution flow simulations and various geocomputing applications leveraging HPC-related packages like \texttt{ParallelStencils.jl}\cite{parallelstenciljl-github} and \texttt{ImplicitGlobalGrid.jl}\cite{implicitglobalgridjl-github}. These packages enable high-performance stencil computations and efficient distributed memory parallelism, reinforcing Julia’s role as a modern HPC language.
 
 \section{Julia in HEP}
 
