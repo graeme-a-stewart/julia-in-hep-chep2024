@@ -144,12 +144,12 @@ From~\cite{pivarski2022} we can identify three major shifts.
     \item[The rise of Python] c.~2010 Python earned a well deserved reputation as an
     excellent language for programming efficiency, and also gained ground
     through being the de facto interface to many machine learning libraries. It
-    has become widely used in HEP as a compliment to C++.
+    has become widely used in HEP as a complement to C++.
 \end{description}
 
 The current situation for HEP is that C++ and Python are now both widely used,
 with each bringing specific advantages, as well as drawbacks. Good C++ excels at
-runtime efficiency, but is a difficult language to learn, far less master, as well as
+runtime efficiency, but is a difficult language to learn, far less to master, as well as
 suffering from memory safety issues and being difficult to compose. Python is
 expressive, much easier to work with, is safer with memory and composes better
 (via duck typing). However, it is very slow compared to C++, so not suitable for
@@ -238,8 +238,8 @@ default.
 
 The integrated package management in Julia, via the \texttt{Pkg} library, tracks and
 maintains the dependency graph of a Julia project. State is entirely stored
-within two human-readable files -- \texttt{Project.toml} (which represents the direct
-dependencies of the project) and \texttt{Manifest.toml} (which preserves the exact
+within two human-readable files -- \texttt{Project.toml} (the direct
+dependencies of the project) and \texttt{Manifest.toml} (the exact
 resulting environment, including secondary dependencies and exact versions).
 One can easily reproduce the exact environment used by
 a codebase as long as these files are provided.
@@ -286,7 +286,9 @@ types, and is the default type for function parameters if none are specified.
 For example, using Julia's notation for ``is a subtype of'', \texttt{<:}, the concrete type
 \verb$Float64$ is in the following hierarchy:
 
-\verb$Float64 <: AbstractFloat <: Real <: Number <: Any$
+\begin{minted}{julia}
+Float64 <: AbstractFloat <: Real <: Number <: Any
+\end{minted}
 
 All higher levels are abstract, and thus cannot be used as the type for a
 binding. Other sibling subtypes of \verb$Real$ include \verb$Float32$,
@@ -300,7 +302,9 @@ values.
 
 Together, this allows complex type expressions such as
 
-\verb$AbstractArray{T,2}$ 
+\begin{minted}{julia}
+AbstractArray{T,2}
+\end{minted}
 
 This represents a function argument that takes any Array-like type, of 2
 dimensions, with an arbitrary element type \texttt{T} (which could be further constrained
@@ -334,8 +338,8 @@ of mathematical operations), resulting in the plot combining all the features of
 the packages seamlessly.
 
 \begin{figure}[!ht]
-\begin{subfigure}[t!]{0.5\textwidth}
-    \begin{minted}[linenos]{julia}
+\begin{subfigure}[t!]{0.45\textwidth}
+    \begin{minted}{julia}
     using Measurements, Plots
     using DifferentialEquations
 
@@ -352,6 +356,7 @@ the packages seamlessly.
     plot(sol.t, getindex.(sol.u,2) ) 
     \end{minted}
 \end{subfigure}
+\hfill
 \begin{subfigure}[t!]{0.5\textwidth}
     \includegraphics[width=0.9\textwidth]{errorbars.png}
 \end{subfigure}
@@ -382,7 +387,7 @@ trivial operation, but mainly shows that there is basically no boilerplate requi
 
 \begin{figure}[!ht]
 \begin{center}
-\begin{minted}[linenos]{julia}
+\begin{minted}{julia}
 using CUDA
 
 a = CuArray([1,2,3,4])
