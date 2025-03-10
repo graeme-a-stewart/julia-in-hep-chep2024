@@ -71,8 +71,8 @@ and accessible as Python with NumPy, but achieves run-time performance on par
 with C/C++. In this paper, we describe the state of adoption of Julia in HEP,
 where momentum has been gathering over a number of years.
 
-HEP-oriented Julia packages can, via \texttt{UnROOT.jl}, already read HEP's
-major file formats, including TTree and RNTuple formats. Interfaces to some of
+HEP-oriented Julia packages can already, via \texttt{UnROOT.jl}, read HEP's
+major file formats, including TTree and RNTuple. Interfaces to some of
 HEP's major software packages, such as through \texttt{Geant4.jl}, are available
 too. Jet reconstruction algorithms in Julia show excellent performance. A number
 of full HEP analyses have been performed in Julia.
@@ -118,7 +118,7 @@ accessible to a large group of developers.
 \subsection{From Fortran to the C++/Python Era}
 
 In response to changing technology and needs the programming
-languages that are dominant in the field have evolved over time.
+languages that are dominant in HEP have evolved over time.
 From~\cite{pivarski2022} we can identify three major shifts. 
 
 % \begin{figure}[htbp]
@@ -136,11 +136,11 @@ From~\cite{pivarski2022} we can identify three major shifts.
     effective language and HEP quickly adopted it as it brought a much improved
     syntax, as well as hardware portability.
     \item[From Fortan to C++] c.~2000 Although Fortran had many advantages, HEP had to
-    develop language extensions to introduce concepts such as more advanced data
+    develop language extensions to introduce missing concepts, such as more advanced data
     structures~\cite{Zoll:2296399}. A language which offered native object
     orientation was an attractive choice. In addition, the gap afforded by the
-    end of the LEP accelerator and the construction of the LHC allowed the field
-    to afford the time for a major language shift.
+    end of the LEP accelerator and the construction of the LHC gave the field
+    the time for a major language shift.
     \item[The rise of Python] c.~2010 Python earned a well deserved reputation as an
     excellent language for programming efficiency, and also gained ground
     through being the de facto interface to many machine learning libraries. It
@@ -164,22 +164,22 @@ performance, and reduces code reusability.
 \subsection{Julia's Motivations}
 
 The Julia programming language was
-\href{https://julialang.org/blog/2012/02/why-we-created-julia/}{announced}. This
-announcement lists a series of ambitious goals for the language, and represents
+\href{https://julialang.org/blog/2012/02/why-we-created-julia/}{announced} in 2012
+listing a series of ambitious goals for the language, and representing
 a view into the core developers' mindset, formalised in a later
 papers~\cite{bib:julia_freshapproach,10.1145/3276490}.
 
 Julia provides a syntax as productive as Python, especially for numerical work,
 whilst leveraging JAOT\footnote{Just-Ahead-Of-Time} compilation to provide
 \href{https://julialang.org/benchmarks/}{speed} similar to compiled, statically
-typed languages like C and Rust. It utilises type inference to allow coding in a
-``gradually typed'', generic programming style, although the language will
+typed languages like C/C++ and Rust. It utilises type inference to allow coding in a
+``gradually typed'' (\S\ref{sec:juliatypes}), generic programming style, although the language will
 always track types for performance behind the scenes, and types can be specified
 explicitly if required. Like MatLab and Fortran, Julia's native operations and
 type system support arrays as first-class entities, of any dimension, allowing
 array-oriented code to be productively generated and efficiently executed, with
 operations naturally ``broadcast'' element- or dimension-wise. This allows Julia
-to also be effective for writing linear algebra heavy code. In addition,
+to also be effective for writing, e.g., linear algebra heavy code. In addition,
 influence from the R community provides a wealth of statistical packages, and an
 R-flavoured approach to plots and visualisation. As with most languages of the
 21st century, Julia is a fully open-source language, with its entire codebase
@@ -223,7 +223,7 @@ Here we demonstrate importing of packages (line 1), function declaration with
 implicit types (line 3) and explicit loop (line 6) and branch constructs (line
 7), implicit loops via ``comprehensions'' (line 15) to generate a  value for
 every point in an implicitly defined array, and, finally, transparent
-broadcasting of operations over that array (line 16 -- both the function call to
+broadcasting of operations over that array (line 16, where both the function call to
 \texttt{Gray}, and the division operation are distributed over the whole array). Unlike
 Python, explicit loops are optimised efficiently, and are no slower than
 comprehensions or ``functional-style'' iterators (which are also supported by
@@ -257,19 +257,19 @@ series of powerful macro utilities for inspecting the byte- and machine-code
 generated for a given expression (\verb$@code_lowered$, \verb$@code_native$) and
 for locating and displaying the source code for any function in the current
 namespace, including from the standard library (\verb$@less$). Profiling of code
-in the REPL is similarly directly supported via macros (\verb$@benchmark$...),
+in the REPL is similarly directly supported via macros (\href{https://github.com/JuliaCI/BenchmarkTools.jl}{\texttt{@benchmark}}),
 which provide detailed performance sampling. Extended introspection and
 profiling tools are also available in optional packages, such as
-\texttt{About.jl}, providing information on memory layout of datatypes and
+\href{https://github.com/tecosaur/About.jl}{\texttt{About.jl}}, providing information on memory layout of datatypes and
 thread safety of functions.
 
 A well-supported VSCode extension is available for the language, which also
-supports the standard LSP allowing it to support development in other editors.
+supports the standard Language Server Protocol allowing it to support development in other editors.
 This includes the usual benefits of code completion (and Unicode completion for
-non-ASCII characters), linting, highlighting and so on.
+non-ASCII characters), linting, highlighting, and so on.
 
 Finally, Julia is one of the founding languages supported by Jupyter - being the
-``Ju'' in the portmanteau - and also provides other native notebook
+``Ju'' in the portmanteau -- and also provides other native notebook
 implementations such as \texttt{Pluto.jl}. 
 
 \subsection{Key Design Features for Performance}
@@ -278,6 +278,7 @@ Whilst there are many features of the Julia language design which contribute to 
 performance, and productivity, we highlight two particular ones here.
 
 \subsubsection{Type System}
+\label{sec:juliatypes}
 
 Julia's type system is an expressive, but simple, tree of sets, where only leaves
 of the tree can be instantiated as concrete types. The higher levels of abstract
@@ -297,7 +298,7 @@ binding. Other sibling subtypes of \verb$Real$ include \verb$Float32$,
 
 Abstract types \textit{can} be used as the type of an element of a container
 type, resulting in a container with boxed types, where each element can be any
-concrete subtype of the element, and similarly for function parameters, where
+concrete subtype of the element; and similarly for function parameters, where
 they constrain that parameter to taking the relevant concrete subtypes as
 values. 
 
@@ -310,8 +311,8 @@ AbstractArray{T,2}
 This represents a function argument that takes any Array-like type, of 2
 dimensions, with an arbitrary element type \texttt{T} (which could be further constrained
 by annotation). As the subtypes of \verb$AbstractArray$ include performance
-specialised cases like diagonal and sparse arrays, and accelerated cases like
-GPU arrays (computed on an accelerator, not the CPU), all of these cases are
+specialised cases like diagonal and sparse arrays, as well as accelerated cases, like
+GPU arrays (computed on an accelerator, not the CPU), then all of these cases are
 naturally handled by the same function that supports this one type. 
 
 \subsubsection{Multiple dispatch}
@@ -339,8 +340,9 @@ of mathematical operations), resulting in the plot combining all the features of
 the packages seamlessly.
 
 \begin{figure}[!ht]
-\begin{subfigure}[t!]{0.45\textwidth}
-    \begin{minted}{julia}
+\begin{subfigure}[t!]{0.40\textwidth}
+    
+    \begin{minted}[fontsize=\footnotesize]{julia}
     using Measurements, Plots
     using DifferentialEquations
 
@@ -354,12 +356,12 @@ the packages seamlessly.
     end
     prob = ODEProblem(p, u0, tspan) 
     sol = solve(prob, Tsit5());
-    plot(sol.t, getindex.(sol.u,2) ) 
+    plot(sol.t, getindex.(sol.u,2)) 
     \end{minted}
 \end{subfigure}
 \hfill
-\begin{subfigure}[t!]{0.5\textwidth}
-    \includegraphics[width=0.9\textwidth]{errorbars.png}
+\begin{subfigure}[t!]{0.55\textwidth}
+    \includegraphics[width=0.95\textwidth]{errorbars.png}
 \end{subfigure}
     \caption{Plot with \texttt{Measurements} of numerical solution using \texttt{DifferentialEquations}, 
     composed via multiple dispatch and the Julia type system.}
@@ -402,7 +404,7 @@ a * 2
 \end{figure}
 
 It is not always possible to write an algorithm and run it using high-level
-array abstractions. Instead you have to write your own GPU kernel and Kernel
+array abstractions. Instead one has to write a GPU kernel -- Kernel
 programming is close to the native toolkits.  Writing and maintaining specific
 backend code is undesirable, from a portability point of view. Therefore Julia
 also supports a generic backend,
@@ -428,7 +430,7 @@ through \texttt{MPI.jl} \cite{byrne2021mpi}, enabling efficient parallel
 communication. Furthermore, when it comes to computational performance, Julia
 has demonstrated its ability to keep up with traditional HPC technologies. For
 instance, in single-CPU-node scenarios, Julia's performance matches that of
-vendor-optimized libraries \cite{giordano2022productivity}. Similarly,
+vendor-optimised libraries \cite{giordano2022productivity}. Similarly,
 performance portability studies in multi-node CPU/GPU benchmarks confirm Julia's
 competitiveness across architectures
 \cite{teichgraber2022julia,godoy2023evaluating}.
@@ -462,7 +464,7 @@ the high-luminosity LHC~\cite{hsfcwp}. Data volumes will rise sharply and data
 complexity will also
 increase~\cite{CERN-LHCC-2022-005,Software:2815292,Valassi2021}. Therefore
 software efficiency and scaling are paramount. As we have seen in
-Section~\ref{sec:julia-hpc}, the Julia language can achieve very efficient
+\S~\ref{sec:julia-hpc}, the Julia language can achieve very efficient
 execution on HPC clusters of CPUs and GPU accelerated nodes. It has also
 \href{https://indico.cern.ch/event/1410341/contributions/6135602/}{been shown}
 that Julia artefacts can be effectively distributed on CVMFS, so that efficient
@@ -488,19 +490,18 @@ Julia, the making use of the Julia interface package
 process can be automated with the helper program
 \href{https://github.com/grasph/wrapit}{WrapIt}, which can generate wrapper code
 automatically from C++ headers. With this, wrapping very large libraries becomes
-much easier, as shown below in Section~\ref{sec:simulation}.
+much easier, as shown below in \S~\ref{sec:simulation}.
 
 The other major desiderata for a programming language is that it is efficient
 for programmers -- and for HEP this must cover the spectrum from novice coders
-to experienced software engineers. As illustrated in Section
-\ref{sec:juliainpractice} Julia's development ecosystem is optimised for
+to experienced software engineers. As illustrated in \S\ref{sec:juliainpractice} Julia's development ecosystem is optimised for
 efficient code development, leading to widespread adoption in
 science~\cite{perkel-julia-science}.
 
 Of course, a language having suitable \emph{general} features, does not
 automatically mean that everything needed by researchers in a particular field
 have the tools and packages that they need. In the next sections we outline the
-growing ecosystem of packages specifically developed for HEP that make is
+growing ecosystem of packages specifically developed for HEP that make it
 possible to be productive with Julia from day 1 of coding. 
 
 \subsection{HEP Data Formats}
@@ -515,12 +516,12 @@ binary artifacts, a process that is not yet fully supported by ROOT. Despite
 this, progress is being made with the \texttt{ROOT.jl}~\cite{ROOT_jl} package,
 which aims to address these challenges.
 
-Another alternative is the \texttt{UnROOT.jl}~\cite{UnROOT:2022vnn} package,
+An alternative is the \texttt{UnROOT.jl}~\cite{UnROOT:2022vnn} package,
 which offers a pure Julia implementation of the ROOT I/O format, independent of
 ROOT or Python. This package supports transparent reading of both TTree and the
 newer RNTuple storage formats. While writing functionality is still under
 development, \texttt{UnROOT.jl} provides fast, memory-efficient, and lazy data
-access, reading only the necessary parts of a file as needed.
+access, reading only the necessary parts of a file on demand.
 
 The \texttt{UnROOT.jl} package can also be used to read EDM4hep
 \cite{EDM4hep:2022leb} event data, in combination with the
@@ -540,14 +541,14 @@ The numerical calculation of amplitudes for hard scattering processes and Monte
 Carlo event generation plays a fundamental role in high-energy physics analysis
 workflows, with a long history (\cite{campbell2024event}). Consequently,
 integrating various aspects of physics models with specialised numerical
-algorithms in a high-performance computing environment is recognized as one
+algorithms in a high-performance computing environment is recognised as one
 major challenge in HEP software development for future HEP experiments
 (\cite{HEPSoftwareFoundation:2017ggl, HSFPhysicsEventGeneratorWG:2020gxw,
 HSFPhysicsEventGeneratorWG:2021xti}) and beyond.
 
 With the open-source framework \texttt{QuantumElectrodynamics.jl}
-\cite{qedjl-github}, we take the first steps in exploring how Julia
-can address these challenges. Specifically, our framework
+\cite{qedjl-github}, the first steps in exploring how Julia
+can address these challenges are taken. Specifically, the framework
 facilitates the numerical calculation of scattering amplitudes and the
 implementation of Monte Carlo event generation within the domain of perturbative
 and strong-field quantum electrodynamics (cf.~\cite{Fedotov:2022ely}). The
@@ -581,7 +582,7 @@ domain-specific knowledge, such as recognising patterns in Feynman diagrams and
 exploiting mathematical properties like distributivity.
 
 Finally, by leveraging multiple dispatch and various array abstractions from the
-Julia ecosystem (see Section~\ref{sec:gpuprog}) the generated
+Julia ecosystem (\S\ref{sec:gpuprog}) the generated
 code can be seamlessly compiled and executed on GPUs as well as CPUs,
 without requiring any modifications to its underlying structure. While some
 framework components are still under development and will be further extended to
@@ -621,7 +622,7 @@ complex codebase, manually writing and maintaining these wrappers is not a
 viable approach, especially for making it more sustainable with future toolkit
 updates. To address this, we use
 \href{https://github.com/grasph/wrapit}{WrapIt}, which automates wrapper
-generation by utilizing the Clang library to parse C++ header files and extract
+generation by utilising the Clang library to parse C++ header files and extract
 class declarations. This automation significantly reduces development effort and
 ensures long-term maintainability of the interface.
 
@@ -631,7 +632,7 @@ full functionality and efficiency of the Geant4 toolkit. This integration also
 provided an opportunity to rethink and streamline the interface, making it more
 intuitive and user-friendly. In particular, we focused on ensuring that
 application developers can concentrate on the essential aspects of their
-simulations while minimizing configuration overhead. Boilerplate code and C++
+simulations while minimising configuration overhead. Boilerplate code and C++
 idiosyncrasies are hidden, allowing for a cleaner, more concise approach to
 defining simulations. The performance of the \texttt{Geant4.jl} package is
 comparable to that of the native C++ Geant4 toolkit, demonstrating the
@@ -646,7 +647,7 @@ be suitable, and can be competitive with modern optimised C++ for a large
 experiment on multiple different GPU backends, e.g., for the \href{https://indico.cern.ch/event/1410341/contributions/6135572/}{CMS pixel
 detector}. For smaller experiments, there are already
 end-to-end solutions based on Julia, as shown below in
-Section~\ref{sec:e2dlegend}.
+\S\ref{sec:e2dlegend}.
 
 For generic reconstruction tasks there is less code in general, however, for the
 task of sequential jet reconstruction, the Fastjet
@@ -660,7 +661,7 @@ broadcasting and generic programming. Performance is, on average 16\% better
 than Fastjet for popular $pp$ reconstruction algorithms, and 33\% better for the
 Durham algorithm for $e^+e^-$ events in FCCee
 studies~\cite{fast-jet-reco-julia}. Using Julia's package extension mechanisms,
-support for the ubiquitous EDM4hep~\cite{Gaede:2022leb} event data model is
+support for the ubiquitous EDM4hep~\cite{EDM4hep:2022leb} event data model is
 supported directly. This adds to the user experience, where not only can the
 package offer simpler, more generic interfaces than Fastjet, but there is the
 ability to seamlessly hook into the rest of the Julia ecosystem, e.g., for jet
@@ -676,13 +677,13 @@ code in other languages, Julia can be a highly efficient alternative to other
 analysis pipelines. An overview of the suitability of Julia for analysis is
 found in Stanitzki and Strube~\cite{Stanitzki:2020bnx}. Statistical tools are
 well supported in Julia, e.g., the \href{https://github.com/JuliaStats/}{Julia Statistics
-community} is a good entry point and HEP
-specific histograming needs are supported by the
-\href{https://github.com/Moelf/FHist.jl/}{\texttt{FHist.jl}}, e.g., error
+community} is a good entry point. HEP
+specific histograming needs are supported by
+\href{https://github.com/Moelf/FHist.jl/}{\texttt{FHist.jl}}, which provides error
 propagation and high performance.
 
-At this phase of the analysis, data, usually in ROOT format, is read (see
-Section~\ref{sec:hepdataformats}). Then there is a growing ecosystem of packages
+At this phase of the analysis, data, usually in ROOT format, is read
+(\S\ref{sec:hepdataformats}). Then there is a growing ecosystem of packages
 dedicated to HEP analysis. For example, for hadron physics one can use
 \href{https://github.com/mmikhasenko/ThreeBodyDecays.jl}{\texttt{ThreeBodyDecays.jl}}
 to build hadronic decays with cascade reactions. Partial-wave analysis is then a
