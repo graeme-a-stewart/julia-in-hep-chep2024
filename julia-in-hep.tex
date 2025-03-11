@@ -14,8 +14,8 @@
 \newunicodechar{π}{$\pi$}
 \newunicodechar{θ}{$\theta$}
 % Workaround for arXiv, start with "finalizecache" then switch to "frozencache"
-\usepackage[finalizecache,cachedir=.]{minted}
-% \usepackage[frozencache,cachedir=.]{minted}
+% \usepackage[finalizecache,cachedir=.]{minted}
+\usepackage[frozencache,cachedir=.]{minted}
 
 \usepackage{natbib}
 \usepackage{hyperref}
@@ -23,7 +23,7 @@
 
 % For draftversion
 \usepackage{lineno}
-\linenumbers
+% \linenumbers
 
 \title{Julia in HEP}
 
@@ -71,7 +71,7 @@ and accessible as Python with NumPy, but achieves run-time performance on par
 with C/C++. In this paper, we describe the state of adoption of Julia in HEP,
 where momentum has been gathering over a number of years.
 
-HEP-oriented Julia packages can already, via \texttt{UnROOT.jl}, read HEP's
+HEP-oriented Julia packages can already, via \texttt{UnROOT.jl}, read HEP's
 major file formats, including TTree and RNTuple. Interfaces to some of
 HEP's major software packages, such as through \texttt{Geant4.jl}, are available
 too. Jet reconstruction algorithms in Julia show excellent performance. A number
