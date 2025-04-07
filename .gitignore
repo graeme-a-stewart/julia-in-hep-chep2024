@@ -305,12 +305,15 @@ TSWLatexianTemp*
 # OS X
 .DS_Store
 
-# Signed copy, do not upload!
-publication_right_form-fast-jet-finding-julia.pdf
-
 # Minted/pygments files
 *.pygtex
 *.pygstyle
 *.index.minted
 *.highlight.minted
 default.style.minted
+
+# Signed copy, do not upload!
+publication_right_form-fast-jet-finding-julia.pdf
+
+# Files related to review process
+review*
