@@ -220,15 +220,16 @@ img = Gray.(set ./ 80)
 \label{code:madelbrot}
 \end{figure}
 
-Here we demonstrate importing of packages (line 1), function declaration with
-implicit types (line 3) and explicit loop (line 5) and branch constructs (line
-6), implicit loops via ``comprehensions'' (line 14) to generate a  value for
-every point in an implicitly defined array, and, finally, transparent
-broadcasting of operations over that array (line 15, where both the function call to
-\texttt{Gray}, and the division operation are distributed over the whole array). Unlike
-Python, explicit loops are optimised efficiently, and are no slower than
-comprehensions or ``functional-style'' iterators (which are also supported by
-Julia).
+Here we demonstrate importing of packages (line 1); function declaration with
+implicit types, positional and named parameters (line 3); an explicit loop (line
+5); branch constructs (line 6); the implicit Julia use of return values (line
+11); implicit loops via ``comprehensions'' (line 14) to generate a  value for
+every point in an implicitly defined array; and, finally, transparent
+broadcasting of operations over that array (line 15, where both the function
+call to \texttt{Gray}, and the division operation are distributed over the whole
+array). Unlike Python, explicit loops are optimised efficiently, and are no
+slower than comprehensions or ``functional-style'' iterators (which are also
+supported by Julia).
 
 \texttt{juliaup} allows seamless management of multiple Julia releases on the same
 machine, including tracking particular patch releases, and choosing the system
@@ -653,8 +654,8 @@ Reconstruction of HEP data is a core task for the field, and a huge amount of
 software, often rather detector specific, is dedicated to that task. Even for
 very detector specific code there are some early demonstrations that Julia would
 be suitable, and can be competitive with modern optimised C++ for a large
-experiment on multiple different GPU backends, e.g., for the \href{https://indico.cern.ch/event/1410341/contributions/6135572/}{CMS pixel
-detector}. For smaller experiments, there are already
+experiment on multiple different GPU backends, e.g., for the CMS pixel
+detector~\cite{patatrack_julia}. For smaller experiments, there are already
 end-to-end solutions based on Julia, as shown below in
 \S\ref{sec:e2dlegend}.
 
